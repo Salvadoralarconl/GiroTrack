@@ -13,7 +13,7 @@ From this directory:
 3. Run `pnpm run dev` and open http://127.0.0.1:5173. Keep using the same hostname so the browser can send its session cookie.
 4. Create the first user account. Existing users can add people from their sidebar account menu. Each person signs in with their own email/password, sharing the workspace. New activity is attributed by the server to the signed-in user. Historical activity keeps its original attribution.
 
-New account passwords use salted scrypt hashes (N=32768, r=8, p=3). Legacy PBKDF2 hashes remain compatible and upgrade on successful sign-in. Portal passwords are separately encrypted with AES-GCM using `GIROTRACK_VAULT_KEY`. Sessions last seven days and use HttpOnly, SameSite=Strict cookies (also Secure on HTTPS). Sessions, accounts and login limits persist in the local database; restarting the server does not sign users out. Logout deletes the server-side session. Login attempts use atomic database counters: five per email per 15 minutes and 50 across the workspace per minute. Account creation after the first account requires a signed-in user. All record, file, and credential APIs require a session.
+New account passwords use salted scrypt hashes (N=32768, r=8, p=3). Legacy PBKDF2 hashes remain compatible and upgrade on successful sign-in. Portal passwords and authenticator seeds are encrypted with AES-256-GCM using versioned keys (`GIROTRACK_VAULT_KEY`, see `lib/vault.mjs`). Signing in is per browser tab: every API request needs the HttpOnly, SameSite=Strict session cookie (a browser-session cookie, Secure on HTTPS) plus that tab's token in the `X-GiroTrack-Tab` header; a reload keeps the tab signed in, a new or reopened tab signs in again (`lib/tab-session.ts`). Ten failed passwords lock an account for 15 minutes (atomic, persisted counters), with an additional per-address limit and a separate limit for authenticator codes. Account creation after the first account requires the Manager. Vendor password retrievals and changes are recorded per vendor (`lib/credential-log.mjs`).
 
 Do not replace an existing vault key: doing so prevents opening previously encrypted portal passwords. Back up `.wrangler/state` and `.dev.vars` privately if you need to preserve local data. Neither belongs in Git.
 
@@ -30,7 +30,11 @@ The older `scripts/integration-test.mjs` predates user accounts and mutates/rest
 
 Calendar payments are schedules, independent of invoices. Recording payment status tracks payments made elsewhere; GiroTrack does not transfer money. PDF/OCR runs locally with bundled assets, without sending documents to an external AI service.
 
-Email verification, password-reset email delivery, and user roles are not configured. Accounts currently share the same workspace permissions. The local app is not publicly deployed by these instructions.
+The first account is the Manager, who adds people, resets their passwords and removes them; everyone else is a Member with the same access to records. Forgotten passwords are recovered with an authenticator app code; there is no email delivery.
+
+## Running on a server
+
+To host GiroTrack on an internal server (built app, Windows service, IIS with HTTPS, protected secrets, backups, key rotation), follow [docs/girosol-server-setup.md](docs/girosol-server-setup.md). In short: `pnpm run build`, then `pnpm start` runs it on `127.0.0.1` (port `GIROTRACK_PORT`, default 8788) with secrets from `GIROTRACK_SECRETS_FILE` (default `.dev.vars`), and refuses to start without a valid key. `node scripts/vault-keys.mjs` checks and rotates encryption keys.
 
 ## Isolated account verification
 

@@ -26,10 +26,25 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# Local environment and keys
+# Local environment and keys (the encryption key lives in .dev.vars or secrets.env; see docs/secrets.env.example)
 .env*
 .dev.vars*
+secrets.env
+*.env
+*.env.new
 *.pem
+*.key
+*.pfx
+
+# Data that must never be committed: databases (and their -wal/-shm/-journal files), backups, logs
+*.sqlite
+*.sqlite3
+*.sqlite-*
+*.db
+*.db-*
+/backups/
+/logs/
+*.log
 
 # Checkout-local tool state
 /.wrangler/

@@ -223,9 +223,7 @@ main{padding-bottom:12px}
 
 .badge.DueToday{background:#fff4cf;color:#a46c00}
 
-.invoice-row.upcoming-payment-row.due-today-row{background:#fff9e6}.invoice-row.upcoming-payment-row.due-today-row:hover{background:#fff3c9}
 
-.invoice-row.upcoming-payment-row.due-today-row,.invoice-row.upcoming-payment-row.due-today-row .invoice-name b,.invoice-row.upcoming-payment-row.due-today-row .invoice-name small,.invoice-row.upcoming-payment-row.due-today-row>strong,.invoice-row.upcoming-payment-row.due-today-row>span:nth-child(3),.invoice-row.upcoming-payment-row.due-today-row>span:nth-child(4){color:#a46c00}
 
 .date-payment-menu{width:225px;max-height:260px;overflow-y:auto}.date-menu-heading{padding:7px 11px;font-size:10px;color:#7c8d9c;border-bottom:1px solid #edf0f3;margin-bottom:3px}.date-payment-menu button{height:auto;min-height:35px;text-align:left}
 
@@ -360,3 +358,204 @@ nav button:active,.payer-list .payer:active{translate:0 .25px;scale:.997;filter:
 .account-notify-browser.granted b{color:#3c7953}
 .account-notify-browser.denied{border-color:#f1d4d4;background:#fdf6f6}
 .account-notify-browser.denied b{color:#b83535}
+
+/* Password history in Login Information: who viewed, copied or changed the saved password. */
+.credential-history{margin-top:20px;padding-top:14px;border-top:1px solid rgba(125,141,153,.22)}
+.credential-history h3{margin:0 0 4px;font-size:12px;font-weight:600;color:inherit}
+.credential-history>p{margin:6px 0 0;font-size:12px}
+.credential-history-list{max-height:180px;overflow:auto}
+.credential-history-list .activity{margin:10px 0}
+
+/* Payment requests (invoice window) and the Manager's Ready for approval card. */
+.payment-requests .form-actions{margin-top:14px}
+.payment-request-card{border:1px solid var(--line);border-radius:10px;padding:14px 15px;margin-bottom:10px}
+.payment-request-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.payment-request-top b{font-size:14px}
+.payment-request-card p{margin:6px 0 10px;font-size:12px}
+.payment-request-actions{display:flex;align-items:center;gap:8px}
+.payment-request-actions button{display:inline-flex;align-items:center;gap:6px}
+.payment-request-actions .account-remove-icon{margin-left:auto}
+.payment-request-card .form-actions{margin-top:8px;padding-top:10px;align-items:center}
+.home-approval{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #edf0f3}
+.home-approval-open{display:flex;align-items:center;gap:10px;flex:1;min-width:0;text-align:left;background:none;border:0;padding:0}
+.home-approval-open b{display:block;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.home-approval-open small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.home-approval .primary{display:inline-flex;align-items:center;gap:5px;flex:none}
+.home-approvals .error{margin-top:10px}
+/* Signature (account menu). */
+.account-signature-preview{display:flex;align-items:center;justify-content:center;min-height:110px;margin-bottom:8px;padding:14px;border:1px solid #e6ecf0;border-radius:8px;background:#fff}
+.account-signature-preview img{max-width:100%;max-height:90px}
+.account-signature-upload{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.account-signature-upload input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.account-signature-upload:focus-within{outline:2px solid #2563eb;outline-offset:2px}
+.account-signature-upload.is-disabled{opacity:.6;cursor:default}
+
+/* Invoice form, compact: related fields share rows so it fits without scrolling. */
+.invoice-editor .form-grid-3{grid-template-columns:1fr 1fr 1fr}
+.invoice-editor .field>small,.invoice-editor .field small{font-size:10px;color:#93a5b4}
+.invoice-editor .field textarea[name="instructions"]{min-height:44px}
+.invoice-editor .invoice-repeat-note{display:block;margin:-2px 0 6px;font-size:10px}
+/* A field the scan could not find: highlighted until filled in. */
+.invoice-editor .needs-entry{border-color:#e7b44a!important;background:#fffbf1}
+.invoice-editor .needs-entry::placeholder{color:#b8892c}
+@media (max-width:560px){.invoice-editor .form-grid-3{grid-template-columns:1fr 1fr}}
+
+/* Invoice form: one height for every box and dropdown, labels on one line, so rows line up. */
+.invoice-editor .field>span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.invoice-editor .field>span small{margin-left:3px}
+.invoice-editor .field input:not([type=checkbox]):not([type=file]),.invoice-editor .field select{box-sizing:border-box;height:38px;min-height:38px;padding:0 11px;font-size:12px;line-height:normal}
+.invoice-editor .field input[type=date]{padding-right:8px}
+.invoice-editor .form-grid{align-items:end}
+/* No up/down arrows on number boxes (amounts are typed). */
+input[type=number]{-moz-appearance:textfield;appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+/* Invoice form rows: one even gap between every row. */
+.invoice-editor>form{row-gap:18px}
+.invoice-editor>form>.form-grid,.invoice-editor>form>.field,.invoice-editor>form>.invoice-review-heading,.invoice-editor .form-grid>.field{margin:0}
+.invoice-editor>form>.form-actions{margin-top:auto}
+/* Invoice form header and upload box: the original, roomier spacing. */
+.invoice-editor .invoice-editor-heading{margin:14px 0 18px}
+.invoice-editor .invoice-pdf-upload{margin:0 0 18px}
+.invoice-editor .invoice-pdf-upload label{flex-direction:column;min-height:110px;padding:20px 15px;gap:8px}
+.invoice-editor .invoice-pdf-upload label>svg{width:21px;height:21px}
+.invoice-editor .invoice-scan-note{padding:11px 12px;margin:0 0 16px}
+/* The form sits lower in the panel (same spacing, moved down). */
+.invoice-editor .invoice-editor-heading{margin-top:clamp(14px,9vh,96px)}
+
+/* Payment request card buttons: outlined like "Edit invoice"; delete is a matching square that turns red on hover. */
+.payment-request-actions button{height:34px;padding:0 13px;border:1px solid #d9e1e9;border-radius:7px;background:#fff;color:#2f4559;font-size:12px;cursor:pointer;transition:border-color .15s,background .15s,color .15s}
+.payment-request-actions button:hover:not(:disabled){border-color:#a9bed3;background:#f7f9fc}
+.payment-request-actions button.primary{background:#2563eb;border-color:#2563eb;color:#fff}
+.payment-request-actions button.primary:hover:not(:disabled){background:#1f56d1;border-color:#1f56d1}
+.payment-request-actions .account-remove-icon{width:34px;padding:0;justify-content:center;color:#7a8b9a}
+.payment-request-actions .account-remove-icon:hover:not(:disabled){border-color:#f0b9b4;background:#fff5f4;color:#c8372d}
+.payment-request-actions button:disabled{opacity:.55;cursor:default}
+
+.account-signature-preview{border-style:dashed;transition:border-color .15s,background .15s}
+.account-signature-preview.is-dragging{border-color:#2563eb;background:#f3f7ff}
+
+/* Signature placement editor (account menu): the printed signature area with its line. */
+.signature-placer{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%}
+.signature-placer-area{position:relative;margin-top:28px}
+.signature-placer-area img{position:absolute;cursor:grab;touch-action:none;user-select:none;max-width:none}
+.signature-placer-area img:active{cursor:grabbing}
+.signature-placer-line{position:absolute;left:0;right:0;bottom:0;border-bottom:1.5px solid #1d2830;pointer-events:none}
+.signature-placer-size{display:flex;align-items:center;gap:10px;font-size:11px;color:#6a8193;margin-top:16px}
+.signature-placer-size input{width:180px}
+.signature-placer-actions{display:flex;align-items:center;gap:8px;width:100%}
+.signature-placer-actions small{flex:1}
+.signature-placer-actions button{height:30px;padding:0 12px;border:1px solid #d9e1e9;border-radius:7px;background:#fff;font-size:12px}
+.signature-placer-actions button.primary{background:#2563eb;border-color:#2563eb;color:#fff}
+.signature-placer-actions button:disabled{opacity:.6}
+.account-signature-preview{min-height:170px}
+
+.account-signature-preview .signature-placer-area img{max-width:none;max-height:none}
+.account-signature-preview{overflow:visible}
+
+/* Ready for approval: each request is one card, with Approve inside it. */
+.home-approval{padding:10px 10px 10px 12px;margin-bottom:8px;border:1px solid #e3e9ef;border-bottom:1px solid #e3e9ef;border-radius:10px;background:#fff;transition:background .15s,border-color .15s}
+.home-approval:hover{background:#f6f8fb;border-color:#d4dde6}
+.home-approval-open,.home-approval-open:hover,.home-approval-open:focus{background:none!important;box-shadow:none}
+.home-approval .primary{height:34px;padding:0 14px;border-radius:7px}
+
+/* Ready for approval rows: same style and left edge as Payments to watch, Approve inside on the right. */
+.home-approval{margin:0;padding:9px 12px;border:0;border-bottom:1px solid #edf0f3;border-radius:0;gap:12px}
+.home-approval:hover{background:#eef2f6;border-color:#edf0f3}
+.home-approval-open{justify-content:flex-start;gap:9px;padding:0}
+.home-approval-open .file-icon{width:25px;height:29px;flex:none}
+.home-approval-open b{font-size:12px;color:#203344}
+.home-approval-open small{font-size:10px;color:#6d8192;margin-top:2px}
+.home-approval .primary{height:30px;padding:0 12px}
+
+/* Edit invoice: Delete on the left of the footer. */
+.invoice-editor .form-actions .invoice-delete{order:0;margin-right:auto;display:inline-flex;align-items:center;gap:6px;color:#c8372d;background:none;border:1px solid transparent;border-radius:7px;padding:0 10px;height:34px}
+.invoice-editor .form-actions .invoice-delete:hover:not(:disabled){background:#fff5f4;border-color:#f0b9b4}
+
+.invoice-editor-vendor{color:#203344;font-weight:600}
+
+/* Calendar agenda card: amount and Ignore share one footer line; the vendor isn't repeated when it's the title. */
+.cal-agenda-item .cal-agenda-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;padding-top:8px;border-top:1px solid #edf0f3}
+.cal-agenda-item .cal-agenda-foot strong{font-size:13px;color:#203344}
+.cal-agenda-item .cal-agenda-foot .payment-ignore{width:auto;height:28px;padding:0 12px;border:1px solid #d9e1e9;border-radius:7px;background:#fff;color:#4a5f72;font-size:11px;cursor:pointer}
+.cal-agenda-item .cal-agenda-foot .payment-ignore:hover:not(:disabled){border-color:#a9bed3;background:#f7f9fc}
+
+.cal-agenda-item .cal-agenda-foot strong,.cal-agenda-item .cal-agenda-foot .payment-ignore{margin:0;line-height:1;align-self:center}
+.cal-agenda-item .cal-agenda-foot strong{display:flex;align-items:center;height:28px}
+
+/* Selected day: a full border that follows the calendar's rounded bottom corners. */
+.cal-month-grid .cal-cell:nth-last-child(7){border-bottom-left-radius:9px}
+.cal-month-grid .cal-cell:last-child{border-bottom-right-radius:9px}
+.cal-month-grid .cal-cell.selected{position:relative;z-index:1;box-shadow:none;outline:1.5px solid #8aaaff;outline-offset:-1.5px}
+
+/* Month view: days from the previous/next month are blank grey cells (no number, no payments, not clickable). */
+.cal-month-grid .cal-cell.outside{background:#f3f4f6;pointer-events:none;outline:none}
+.cal-month-grid .cal-cell.outside>*{display:none}
+
+/* Month cells: every payment, scrolling inside the cell without a scrollbar; + sits beside the date. */
+.cal-month-grid .cal-cell{position:relative;display:flex;flex-direction:column;overflow:hidden}
+.cal-month-grid .cal-cell-events{flex:1;min-height:0;display:flex;flex-direction:column;gap:4px;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:4px}
+.cal-month-grid .cal-cell-events::-webkit-scrollbar{display:none;width:0;height:0}
+.cal-month-grid .cal-cell-events>*{flex:none}
+.cal-month-grid .cal-quick-add{position:absolute;top:6px;right:6px;bottom:auto;left:auto}
+
+/* Approval badge: no payment request yet */
+.badge.None{background:#f1f3f5;color:#7a858f}
+
+
+/* Payments to watch: overdue rows in red, rows due today in blue (edge bar, tint and a small pill) */
+.home-invoice.overdue{background:#fdf4f2;box-shadow:inset 3px 0 0 #dc2626}
+.home-invoice.overdue:hover{background:#fbebe7}
+.home-invoice.due-today>span:nth-child(2){color:#2563eb}
+.home-invoice .home-due-pill{display:inline-block;width:fit-content;margin-top:4px;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;line-height:1.5}
+.home-invoice.overdue .home-due-pill{background:#fbe5e5;color:#b42318}
+.home-invoice.due-today .home-due-pill{background:#e0e9fd;color:#1d4ed8}
+
+/* Ready for approval: outlined Approve buttons so the list stays calm */
+.home-approval .primary{background:#fff;color:#2563eb;border:1px solid #bfd0f7;box-shadow:none}
+.home-approval .primary:hover:not(:disabled){background:#eef3fe;border-color:#2563eb}
+
+/* Due today: blue side bar and badge, no row tint (Home and the invoice list) */
+.home-invoice.due-today{box-shadow:inset 3px 0 0 #2563eb}
+.invoice-row.upcoming-payment-row.due-today-row{box-shadow:inset 3px 0 0 #2563eb}
+.badge.DueToday{background:#dbe6fd;color:#1d4ed8;font-weight:600}
+
+/* Recent changes, lighter: initials of who made the change instead of the icon tile, one-line text, softer colors and dividers */
+.home-change{gap:11px;padding:10px 0;border-bottom-color:#f3f5f7;align-items:flex-start}
+.home-change-icon{width:24px;height:24px;border-radius:50%;background:#eef2f7;color:#5f7a92;font-size:9.5px;font-weight:600;letter-spacing:.02em}
+.home-change>div{flex:1}
+.home-change b,.home-change button{font-weight:400;color:#4a5d6d;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.home-change small{color:#a3b0bb;margin-top:2px}
+.home-change small>span{color:#8b9aa7}
+/* Line Recent changes up with Ready for approval above (12px inset, 25px icon, 9px gap) */
+.home-change{padding-left:12px;padding-right:12px;gap:9px}
+.home-change-icon{width:25px;height:25px}
+.home-card-scroll{position:relative}
+/* Ready for approval a little taller and both lists a touch tighter: 5 approvals and 4 changes fit whole */
+@media(min-width:901px){.home-grid{grid-template-rows:minmax(0,1.06fr) minmax(0,.94fr)}}
+.home-approval{padding-top:7px;padding-bottom:7px}
+.home-change{padding-top:8px;padding-bottom:8px}
+/* Whole-row card lists (useWholeRows): exactly N rows share the height and scrolling snaps row by row */
+.home-card-scroll[data-whole]{scroll-snap-type:y mandatory}
+.home-card-scroll[data-whole]>*{height:var(--row-h);overflow:hidden;box-sizing:border-box;scroll-snap-align:start}
+.home-card-scroll[data-whole]>.home-change{align-items:center}
+/* Line Your vendors up with Recent changes (12px inset, 25px avatar, 9px gap) */
+.home-payer{padding-left:12px;padding-right:12px;gap:9px}
+.home-payer .avatar{flex:none}
+
+/* Ready for approval quick summary (pop-up) */
+.approval-summary-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:14px;border-bottom:1px solid #edf0f3}
+.approval-summary-head span{font-size:15px;font-weight:600;color:#203344}
+.approval-summary-head strong{font-size:22px;font-weight:650;color:#1d2b36}
+.approval-summary dl{margin:6px 0 18px}
+.approval-summary dl>div{display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid #f3f5f7;font-size:12px}
+.approval-summary dt{color:#7a8f9f;flex:none}
+.approval-summary dd{margin:0;color:#314b60;text-align:right;overflow-wrap:anywhere}
+.approval-due{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:999px;font-style:normal;font-size:11px;font-weight:600}
+.approval-due.late{background:#fbe5e5;color:#b42318}
+.approval-due.today{background:#e0e9fd;color:#1d4ed8}
+.approval-summary .form-actions button{display:inline-flex;align-items:center;gap:5px}
+
+/* Calendar payment pop-up: summary (shares .approval-summary) and the date's settings */
+.calendar-payment-popup{width:430px}
+.calendar-payment-manage{display:flex;flex-wrap:wrap;gap:8px;margin:-4px 0 18px}
+.calendar-payment-manage button{display:inline-flex;align-items:center;gap:6px}

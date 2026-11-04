@@ -17,7 +17,9 @@ export default function InvoicePreview({file,attachments=[]}:any){
     const pdfjs=await import('pdfjs-dist');
     if(cancelled)return;
     pdfjs.GlobalWorkerOptions.workerSrc='/invoice-tools/pdf.worker.min.mjs';
-    const source=file?{data:new Uint8Array(await file.arrayBuffer())}:{url:'/api/files?id='+encodeURIComponent(id)+'&inline=1'};
+    // Fetched here (with this tab's sign-in), not by PDF.js, which can't send it.
+    const bytes=async()=>{const r=await fetch('/api/files?id='+encodeURIComponent(id)+'&inline=1',{cache:'no-store'});if(!r.ok){if(r.status===401)window.dispatchEvent(new Event('account-expired'));throw Error('Could not load the PDF.');}return new Uint8Array(await r.arrayBuffer());};
+    const source={data:file?new Uint8Array(await file.arrayBuffer()):await bytes()};
     if(cancelled)return;
     task=pdfjs.getDocument({...source,standardFontDataUrl:'/invoice-tools/standard_fonts/',cMapUrl:'/invoice-tools/cmaps/',cMapPacked:true,wasmUrl:'/invoice-tools/wasm/'});
     const doc=await task.promise;
