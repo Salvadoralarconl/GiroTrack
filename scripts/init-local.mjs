@@ -16,6 +16,8 @@ const d1=(command,extra=[])=>spawnSync(process.execPath,['--import','./scripts/s
 const result=d1('CREATE TABLE IF NOT EXISTS workspace (id TEXT PRIMARY KEY NOT NULL,data TEXT NOT NULL,version INTEGER DEFAULT 0 NOT NULL)');
 if(result.error)throw result.error;
 if(result.status!==0)process.exit(result.status||1);
+// A new server starts empty. Without this row the app fills in its sample records; INSERT OR IGNORE leaves an existing workspace alone.
+if(process.env.GIROTRACK_EMPTY_WORKSPACE==='1'){const empty=JSON.stringify({payers:[],invoices:[],views:[{id:'all',name:'All records',kind:'all',value:''}],activity:[]});const row=d1(`INSERT OR IGNORE INTO workspace (id,data,version) VALUES ('main','${empty.replaceAll("'","''")}',0)`);if(row.status!==0)process.exit(row.status||1);}
 const secrets=secretsPath();
 if(!existsSync(secrets)){
  // A new key is only for a brand-new workspace: with encrypted values already stored, it would make them unreadable.

@@ -1,9 +1,7 @@
 <#
-Builds outputs\GiroTrack-Setup.zip on this PC. Reads the live data without changing it.
-The zip contains the database and the vault key, so keep it private.
-Run on 64-bit Windows, after pnpm install, with GiroTrack stopped in -DataSource.
+Builds outputs\GiroTrack-Setup.zip on this PC: the app and Node.js, with no data or keys.
+Run on 64-bit Windows, after pnpm install.
 #>
-param([string]$DataSource = "$env:USERPROFILE\Documents\ChatGPT\GiroTrack\app")
 $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path "$PSScriptRoot\..").Path
 Set-Location $root
@@ -16,11 +14,8 @@ function Copy-Tree($from, $to) {
     if ($LASTEXITCODE -ge 8) { throw "Could not copy $from (robocopy code $LASTEXITCODE)." }
 }
 
-foreach ($needed in '.wrangler\state', '.dev.vars') {
-    if (-not (Test-Path "$DataSource\$needed")) { throw "$DataSource has no $needed." }
-}
 if (Test-Path $stage) { Remove-Item $stage -Recurse -Force }
-New-Item -ItemType Directory -Force "$stage\app\scripts", "$stage\app\lib", "$stage\runtime", "$stage\data", (Split-Path $zip) | Out-Null
+New-Item -ItemType Directory -Force "$stage\app\scripts", "$stage\app\lib", "$stage\runtime", (Split-Path $zip) | Out-Null
 
 try {
     Write-Host 'Building GiroTrack'
@@ -48,10 +43,6 @@ try {
 
     Write-Host 'Copying Node.js'
     Copy-Item (Get-Command node).Source "$stage\runtime\node.exe"
-
-    Write-Host 'Copying the data'
-    Copy-Tree "$DataSource\.wrangler\state" "$stage\data\state"
-    Copy-Item "$DataSource\.dev.vars" "$stage\data\secrets.env"
 
     Copy-Item "$PSScriptRoot\Install.cmd", "$PSScriptRoot\Install-GiroTrack.ps1", "$PSScriptRoot\Uninstall-GiroTrack.ps1", "$PSScriptRoot\Check-Server.cmd", "$PSScriptRoot\Check-Server.ps1", "$PSScriptRoot\README.txt" $stage
 

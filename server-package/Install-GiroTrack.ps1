@@ -139,8 +139,7 @@ foreach ($needed in 'runtime\node.exe', 'app\scripts\windows-server.mjs', 'app\d
     if (-not (Test-Path "$package\$needed")) { throw "$needed is missing. Extract the whole ZIP before running the installer." }
 }
 
-# Data goes in only as a matched pair, and only where there is none: a database
-# with the wrong key would leave saved passwords unreadable.
+# A database with the wrong key would leave saved passwords unreadable, so a new key is only for a new database.
 $hasState = Test-Path "$DataDir\state"
 $hasSecrets = Test-Path $secretsFile
 if ($hasState -ne $hasSecrets) {
@@ -196,12 +195,19 @@ if ($hasState) {
     robocopy "$DataDir\state" $backup /E /NFL /NDL /NJH /NJS /NP | Out-Null
     if ($LASTEXITCODE -ge 8) { throw "Could not back up the data (robocopy code $LASTEXITCODE). Nothing was changed." }
 } else {
-    Write-Host "Importing data to $DataDir"
-    if (-not ((Test-Path "$package\data\state") -and (Test-Path "$package\data\secrets.env"))) { throw 'The data folder is missing from this package.' }
-    robocopy "$package\data\state" "$DataDir\state" /E /NFL /NDL /NJH /NJS /NP | Out-Null
-    if ($LASTEXITCODE -ge 8) { throw "Could not import the data (robocopy code $LASTEXITCODE)." }
-    Copy-Item "$package\data\secrets.env" $secretsFile
+    Write-Host 'Starting with an empty GiroTrack.'
+    $env:GIROTRACK_EMPTY_WORKSPACE = '1'
 }
+
+Write-Host 'Preparing the database'
+$env:GIROTRACK_LOCAL_STATE = "$DataDir\state"
+$env:GIROTRACK_SECRETS_FILE = $secretsFile
+Push-Location "$InstallDir\app"
+try {
+    # Keeps existing records and never replaces an existing key.
+    & $node scripts\init-local.mjs | Out-Null
+    if ($LASTEXITCODE) { throw 'Preparing the database failed.' }
+} finally { Pop-Location }
 
 $secrets = [IO.File]::ReadAllText($secretsFile)
 $secrets = Set-Secret $secrets 'GIROTRACK_PUBLIC_ORIGIN' $origin
@@ -228,16 +234,6 @@ if (-not (Test-Path $pfxFile) -or -not $passphrase -or (($savedNames -join ',') 
 }
 Write-TextFile $secretsFile $secrets
 Write-TextFile "$DataDir\server.json" (@{ httpsPort = $HttpsPort; appPort = $AppPort; certificateNames = $names } | ConvertTo-Json)
-
-Write-Host 'Preparing the database'
-$env:GIROTRACK_LOCAL_STATE = "$DataDir\state"
-$env:GIROTRACK_SECRETS_FILE = $secretsFile
-Push-Location "$InstallDir\app"
-try {
-    # Keeps existing records and never replaces an existing key.
-    & $node scripts\init-local.mjs | Out-Null
-    if ($LASTEXITCODE) { throw 'Preparing the database failed.' }
-} finally { Pop-Location }
 
 if ($NoService) {
     Write-Host 'Files copied. No task or firewall rule was created.'
@@ -275,4 +271,4 @@ if (-not $ready) { throw "GiroTrack did not start. Check $DataDir\logs\girotrack
 Write-Host ''
 Write-Host "GiroTrack is running. Open $origin" -ForegroundColor Green
 Write-Host "Browsers warn about the certificate until $DataDir\girotrack.cer is trusted on employee PCs."
-Write-Host 'Delete this ZIP and its extracted folder: they hold the database and the encryption key.' -ForegroundColor Yellow
+if (-not $hasState) { Write-Host 'Open it now and create the first account. It becomes the Manager.' -ForegroundColor Yellow }

@@ -1,11 +1,8 @@
 GiroTrack setup
 ===============
 
-This ZIP holds GiroTrack's database and encryption key, including saved vendor
-passwords. Keep it private, and delete it and its extracted folder once GiroTrack
-is running.
-
-Nothing else needs installing: Node.js and the app are inside.
+This installs a new, empty GiroTrack: no accounts and no records. Nothing else
+needs installing: Node.js and the app are inside.
 
 To install
 ----------
@@ -13,7 +10,8 @@ To install
 2. Optional: run Check-Server.cmd. It changes nothing.
 3. Run Install.cmd and approve the administrator prompt.
 4. Enter the domain account that will run GiroTrack, and its password.
-5. Open the address shown at the end.
+5. Open the address shown at the end and create the first account. It becomes
+   the Manager, so do this straight away.
 
 Browsers warn about the certificate until it is trusted. To trust it, install
 C:\ProgramData\GiroTrack\girotrack.cer under Trusted Root Certification
