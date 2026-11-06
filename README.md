@@ -28,7 +28,7 @@ The older `scripts/integration-test.mjs` predates user accounts and mutates/rest
 
 ## Notes
 
-Calendar payments are schedules, independent of invoices. Recording payment status tracks payments made elsewhere; GiroTrack does not transfer money. PDF/OCR runs locally with bundled assets, without sending documents to an external AI service.
+Calendar payments are schedules, independent of invoices. Recording payment status tracks payments made elsewhere; GiroTrack does not transfer money. Invoice PDFs are attached and previewed locally; their details are entered by hand.
 
 The first account is the Manager, who adds people, resets their passwords and removes them; everyone else is a Member with the same access to records. Forgotten passwords are recovered with an authenticator app code; there is no email delivery.
 

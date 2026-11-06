@@ -3,5 +3,4 @@ allowBuilds:
   workerd: true
   sharp: true
   unrs-resolver: true
-  tesseract.js: false
 
